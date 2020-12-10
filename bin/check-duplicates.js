@@ -19,6 +19,10 @@ args.options([
 
 const { scope } = args.parse(process.argv)
 
+if (!scope) {
+    throw new Error('Scope for search duplicates is not defined! Example: yarn-lock-check-duplicates -s @babel')
+}
+
 const yarnLockExists = fs.existsSync(yarnLockPath)
 
 if (!yarnLockExists) {
