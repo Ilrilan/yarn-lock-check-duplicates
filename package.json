@@ -1,9 +1,12 @@
 {
   "name": "yarn-lock-check-duplicates",
-  "version": "1.0.4",
+  "version": "1.0.5",
+  "main": "bin/check-duplicates.js",
   "bin": {
-    "yarn-lock-check-duplicates": "bin/check-duplicates"
+    "yarn-lock-check-duplicates": "bin/check-duplicates.js"
   },
+  "repository": "https://github.com/Ilrilan/yarn-lock-check-duplicates",
+  "author": "Ilrilan <ilrilan2@gmail.com>",
   "dependencies": {
     "args": "^5.0.1",
     "@yarnpkg/lockfile": "^1.1.0"
