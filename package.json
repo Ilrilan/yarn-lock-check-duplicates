@@ -1,6 +1,6 @@
 {
   "name": "yarn-lock-check-duplicates",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "bin": {
     "yarn-lock-check-duplicates": "bin/check-duplicates"
   },
