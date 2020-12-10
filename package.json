@@ -1,0 +1,11 @@
+{
+  "name": "yarn-lock-check-duplicates",
+  "version": "1.0.0",
+  "bin": {
+    "check-duplicates": "./check-duplicates.js"
+  },
+  "dependencies": {
+    "args": "^5.0.1",
+    "@yarnpkg/lockfile": "^1.1.0"
+  }
+}
