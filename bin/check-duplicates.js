@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const args = require('args')
 const lockfile = require('@yarnpkg/lockfile')
 const fs = require('fs')
