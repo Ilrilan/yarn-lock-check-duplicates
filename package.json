@@ -3,12 +3,22 @@
   "version": "1.1.0",
   "main": "bin/check-duplicates.js",
   "bin": {
-    "yarn-lock-check-duplicates": "bin/check-duplicates.js"
+    "yarn-lock-check-duplicates": "bin/yarn-lock-check-duplicates",
+    "package-lock-check-duplicates": "bin/package-lock-check-duplicates"
+  },
+  "scripts": {
+    "test": "mocha --config=./tests/config/.mocharc.json"
   },
   "repository": "https://github.com/Ilrilan/yarn-lock-check-duplicates",
   "author": "Ilrilan <ilrilan2@gmail.com>",
   "dependencies": {
+    "@types/mocha": "^9.1.0",
+    "@yarnpkg/lockfile": "^1.1.0",
     "args": "^5.0.1",
-    "@yarnpkg/lockfile": "^1.1.0"
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "mocha": "^9.2.0"
   }
 }
