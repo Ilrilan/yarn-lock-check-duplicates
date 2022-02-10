@@ -32,6 +32,13 @@ describe('Check script which search duplicates in yarn.lock files', function () 
 				assert.ok(stderr.includes('The target file for searching for duplicates is not defined! Example: check-duplicates -t package'))
 			});
 		});
+
+		it('We check with an invalid target', function() {
+			exec(`PATH_TO_FILE="/tests/spec/check-package/resource/package-lock.json" node ${bin} -s @babel -t test`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+				assert.equal(err?.code, 1);
+				assert.ok(stderr.includes('The target file can only be of two types - package or yarn! "test" is not allowed'))
+			});
+		});
 	});
 
     describe('Valid case', () => {
