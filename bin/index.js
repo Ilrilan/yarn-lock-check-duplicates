@@ -29,8 +29,7 @@ if (!ALLOWED_TARGET_TYPES.some(allowedTarget => target === allowedTarget)) {
     throw new Error(`The target file can only be of two types - package or yarn! "${target}" is not allowed`)
 }
 
-const packageLockPath = preparingPath(target);
-const lockObject = getFileData(packageLockPath, target);
+const lockObject = getFileData(target);
 const finalListPackages = checkDuplications(target, lockObject, scope);
 
 const pkgWithDuplicates = Object.keys(finalListPackages)
