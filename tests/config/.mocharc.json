@@ -1,0 +1,16 @@
+{
+    "color": true,
+    "diff": true,
+    "bail": false,
+    "extension": ["ts"],
+    "slow": 1000,
+    "timeout": 5000,
+    "ui": "bdd",
+    "spec": "tests/spec/**/*.test.ts",
+    "watch-files": [
+        "tests/spec/**/*.test.ts"
+    ],
+    "require": [
+        "ts-node/register"
+    ]
+}
