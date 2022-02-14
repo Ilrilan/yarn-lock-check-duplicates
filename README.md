@@ -2,7 +2,8 @@ This small utility can check `yarn.lock` file for having same versions of one pa
 
 Example:
 
-`yarn yarn-lock-check-duplicates -s @babel`
+For check yarn.lock file - `yarn check-duplicates -s @babel -t yarn`
+For check package-lock.json file - `yarn check-duplicates -s @babel -t package`
 
 If `yarn.lock` file has more than one version of any babel package, you'll receive exitCode=1 and see something like this:
 
