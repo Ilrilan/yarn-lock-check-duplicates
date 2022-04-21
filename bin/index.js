@@ -1,5 +1,7 @@
+#!/usr/bin/env node
+
 const args = require('args');
-const { preparingPath, getFileData } = require('../src/utils');
+const { getFileData } = require('../src/utils');
 const { checkDuplications } = require('../src/check-duplications');
 
 const ALLOWED_TARGET_TYPES = ['package', 'yarn'];
