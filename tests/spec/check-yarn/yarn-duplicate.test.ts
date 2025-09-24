@@ -34,11 +34,18 @@ describe('Check script which search duplicates in yarn.lock files', function () 
 		});
 
 		it('We check with an invalid target', function() {
-			exec(`PATH_TO_FILE="/tests/spec/check-package/resource/package-lock.json" ${bin} -s @babel -t test`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+			exec(`PATH_TO_FILE="/tests/spec/check-yarn/resource/yarn.lock" ${bin} -s @babel -t test`, { cwd: process.cwd() }, (err, stdout, stderr) => {
 				assert.equal(err?.code, 1);
 				assert.ok(stderr.includes('The target file can only be of two types - package or yarn! "test" is not allowed'))
 			});
 		});
+
+		it('We check pkg with repetetions that match to exclude option without scope', function() {
+			exec(`PATH_TO_FILE="/tests/spec/check-yarn/resource/yarn.lock" ${bin} -s @babel -t yarn -e helper-define-polyfill-provider`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+				assert.equal(err?.code, 1);
+				assert.ok(stdout.includes('"name": "@babel/helper-define-polyfill-provider"'));
+			});
+		})
 	});
 
     describe('Valid case', () => {
@@ -48,5 +55,19 @@ describe('Check script which search duplicates in yarn.lock files', function () 
 				assert.ok(stdout.includes('Packages installed from scope @babel has no duplicates'));
 			});
 		});
+
+		it('We check pkg with repetetions that match to exclude option', function() {
+			exec(`PATH_TO_FILE="/tests/spec/check-yarn/resource/yarn.lock" ${bin} -s @babel -t yarn -e @babel/helper-define-polyfill-provider`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+                assert.equal(err?.code, null);
+				assert.ok(stdout.includes('Packages installed from scope @babel has no duplicates'));
+			});
+		})
+
+		it('We check pkg with repetetions that match to exclude option that set as array', function() {
+			exec(`PATH_TO_FILE="/tests/spec/check-yarn/resource/yarn.lock" ${bin} -s @babel -t yarn -e babel-plugin-polyfill-corejs -e @babel/helper-define-polyfill-provider`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+                assert.equal(err?.code, null);
+				assert.ok(stdout.includes('Packages installed from scope @babel has no duplicates'));
+			});
+		})
 	});
 });
