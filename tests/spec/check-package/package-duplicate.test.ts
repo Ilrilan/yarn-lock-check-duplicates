@@ -40,6 +40,14 @@ describe('Check script which search duplicates in package-lock files', function 
 				assert.ok(stderr.includes('The target file can only be of two types - package or yarn! "test" is not allowed'))
 			});
 		});
+
+		it('We check pkg with repetetions that match to exclude option without scope', function() {
+			exec(`PATH_TO_FILE="/tests/spec/check-package/resource/package-lock.json" ${bin} -s @tinkoff-codeceptjs -t package -e base-helper -e utils`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+				assert.equal(err?.code, 1);
+				assert.ok(stdout.includes('"name": "@tinkoff-codeceptjs/base-helper"'));
+				assert.ok(stdout.includes('"name": "@tinkoff-codeceptjs/utils"'));
+			});
+		})
 	});
 	
 	describe('Valid case', () => {
@@ -49,5 +57,12 @@ describe('Check script which search duplicates in package-lock files', function 
 				assert.ok(stdout.includes('Packages installed from scope @tinkoff-codeceptjs has no duplicates'));
 			});
 		});
+
+		it('We check pkg with repetetions that match to exclude option', function() {
+			exec(`PATH_TO_FILE="/tests/spec/check-package/resource/package-lock.json" ${bin} -s @tinkoff-codeceptjs -t package -e @tinkoff-codeceptjs/base-helper -e @tinkoff-codeceptjs/utils`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+				assert.equal(err?.code, null);
+				assert.ok(stdout.includes('Packages installed from scope @tinkoff-codeceptjs has no duplicates'));
+			});
+		})
 	});
 });

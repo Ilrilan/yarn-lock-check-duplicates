@@ -14,10 +14,14 @@ args.options([
     {
         name: 'target',
         description: 'The type of file in which duplicates will be searched'
+    },
+    {
+        name: 'exclude',
+        description: 'Exclude packages from duplicates search',
     }
 ])
 
-const { scope, target } = args.parse(process.argv);
+const { scope, target, exclude } = args.parse(process.argv);
 
 if (!scope) {
     throw new Error('Scope for search duplicates is not defined! Example: check-duplicates -s @babel');
@@ -27,12 +31,17 @@ if (!target) {
     throw new Error('The target file for searching for duplicates is not defined! Example: check-duplicates -t package');
 }
 
+let excludeNormalized = exclude
+if (excludeNormalized && !Array.isArray(excludeNormalized)) {
+    excludeNormalized = [excludeNormalized]
+}
+
 if (!ALLOWED_TARGET_TYPES.some(allowedTarget => target === allowedTarget)) {
     throw new Error(`The target file can only be of two types - package or yarn! "${target}" is not allowed`)
 }
 
 const lockObject = getFileData(target);
-const finalListPackages = checkDuplications(target, lockObject, scope);
+const finalListPackages = checkDuplications(target, lockObject, scope, excludeNormalized);
 
 const pkgWithDuplicates = Object.keys(finalListPackages)
     .filter((name) => finalListPackages[name].length > 1)

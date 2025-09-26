@@ -4,6 +4,7 @@ Example:
 
 For check yarn.lock file - `yarn check-duplicates -s @babel -t yarn`
 For check package-lock.json file - `yarn check-duplicates -s @babel -t package`
+For exclude some packages from check - `yarn check-duplicates -s @babel -t package -e @babel/core`
 
 If `yarn.lock` file has more than one version of any babel package, you'll receive exitCode=1 and see something like this:
 

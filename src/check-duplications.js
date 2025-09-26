@@ -1,7 +1,24 @@
-exports.checkDuplications = (target, lockObject, scope) => {
+function checkByConstraints(pkgName, scope, exclude) {
+    return pkgName.indexOf(scope) !== -1 && (!exclude || !exclude.some(function(e) {
+        // handle @somescope/pkgname as in yarn.lock
+        if (pkgName.indexOf('node_modules') !== 0) {
+            return e === pkgName
+        }
+        const excludeWithNm = 'node_modules/' + e
+        const excInd = pkgName.indexOf(excludeWithNm)
+        // handle name kind of node_modules/@somescope/pkgname from package-lock.json of version 2+ 
+        return excInd !== -1 && (excludeWithNm.length + excInd) === pkgName.length
+    }))
+}
+
+function pkgSpecifierToPkgName(pkgSpecifier) {
+    return pkgSpecifier.slice(0, pkgSpecifier.lastIndexOf('@'))
+}
+
+exports.checkDuplications = (target, lockObject, scope, exclude) => {
     if (target === 'package') {
         function getPackagesByVersion(object, type) {
-            const scopePackages = Object.keys(object).filter((pkgName) => pkgName.indexOf(scope) !== -1)
+            const scopePackages = Object.keys(object).filter((pkgName) => checkByConstraints(pkgName, scope, exclude))
             return scopePackages.reduce((acc, package) => {
                 const shortName = package.slice(package.lastIndexOf(scope), package.length)
                 const pkg = lockObject[type][package]
@@ -35,10 +52,10 @@ exports.checkDuplications = (target, lockObject, scope) => {
             }
         }, {});
     } else {
-        const scopePackages = Object.keys(lockObject.object).filter((pkgName) => pkgName.indexOf(scope) !== -1)
+        const scopePackages = Object.keys(lockObject.object).filter((pkgSpecifier) => checkByConstraints(pkgSpecifierToPkgName(pkgSpecifier), scope, exclude))
 
         return scopePackages.reduce((acc, package) => {
-            const pkgName = package.slice(0, package.lastIndexOf('@'))
+            const pkgName = pkgSpecifierToPkgName(package)
             const pkg = lockObject.object[package]
             const currentVersion = pkg.version
             acc[pkgName] = acc[pkgName] || []
